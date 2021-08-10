@@ -1,21 +1,42 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block 
 content %}
-<h1 align="center">Notes</h1>
-<ul class="list-group list-group-flush" id="notes">
-    {% for note in user.notes%}
-    <li class = "list-group-item">{{ note.data }}
-        <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+<h1 align="center">Home</h1>
+<form method="POST" enctype="multipart/form-data" action="/">
+    <div>
+        <br />
+        <div text-align="center">
+            <label class="form-label" for="custom_file">Upload Image</label>
+            <input type="file" class="form-control" id="custom_file" name="pic"/>
+        </div>
+        <br />
+    </div>
+    <div>
+        <label>Description</label>
+        <textarea name="note" id="note" class="form-control"></textarea>
+        <br />
+    </div>
+    <div>
+        <div text-align="center">
+            <button type="submit" class="btn btn-primary">Create Post</button>
+        </div>
+    </div>
+</form>
+<ul class="list-group list-group-flush" id="posts">
+    {% for post in user.posts %}
+    <li class = "list-group-item" align="center">
+        <div class="thumbnail">
+            <img src="{{ url_for('views.serve_img', id=post.post_id) }}" style="width:60%">
+            <div class="caption">
+                <br />
+                <p>{{ post.post_note }}</p>
+                <br />
+            </div>
+        </div>
+        <button type="button" class="close" onClick="deletePost({{ post.post_id }})">
             <span aria-hidden="true">&times;</span>
         </button>
     </li>
     {% endfor %}
 </ul>
-<form method="POST">
-    <textarea name="note" id="note" class="form-control"></textarea>
-    <br />
-    <div text-align="center">
-        <button type="submit" class="btn btn-primary">Add Note</button>
-    </div>
-</form>
 {% endblock %}
 
